@@ -1,0 +1,10 @@
+This is iteration no: 0 with epochs = 10, batch size = 32, and learning rate = 0.01 
+              precision    recall  f1-score   support
+
+  Turn right       1.00      0.59      0.74       117
+   Turn left       0.71      1.00      0.83       117
+
+    accuracy                           0.79       234
+   macro avg       0.85      0.79      0.79       234
+weighted avg       0.85      0.79      0.79       234
+

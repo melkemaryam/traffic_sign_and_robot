@@ -36,14 +36,14 @@ class Train_Net:
 		self.net = Neural_Net()
 
 		# initialise parameters
-		self.number_of_epochs = 200
-		self.initial_learning_rate = 1e-2 # enter 1, 0.1, 0.01
+		self.number_of_epochs = 20
+		self.initial_learning_rate = 0.1 # enter 1, 0.1, 0.01
 		self.batch_size = 32 # enter 2^1 to 2^8
 
 		# prepare the data and the model
 		self.prepare_data()
 
-		for i in range(100): #you can change the number of iterations
+		for i in range(1): #you can change the number of iterations
 			
 			# train the model
 			train = self.train()
