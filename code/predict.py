@@ -13,12 +13,6 @@ from skimage import io
 from tensorflow.keras.models import load_model
 #from train import Train_Net
 
-#!/usr/bin/env python3
-import rospy
-from std_msgs.msg import String
-from time import sleep
-
-
 class Predict_Net:
 
 	
@@ -109,12 +103,10 @@ class Predict_Net:
 			rospy.loginfo("Please turn %s", label)
 			rate.sleep()
 
-
+'''
 
 if __name__ == "__main__":
-    try:
-        self.main_predict_net()
-    except rospy.ROSInterruptException:
-        pass
+    	
+	p = Predict_Net()
+	p.main_predict_net()
 
-'''
