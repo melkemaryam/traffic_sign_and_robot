@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 import rospy
-from std_msgs.msg import Float64
+from std_msgs.msg import String
 from time import sleep
 
 from ./code/predict import Predict_Net
