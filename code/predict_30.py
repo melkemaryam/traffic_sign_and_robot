@@ -13,11 +13,6 @@ from skimage import io
 from tensorflow.keras.models import load_model
 from train import Train_Net
 
-#!/usr/bin/env python3
-import rospy
-from std_msgs.msg import String
-from time import sleep
-
 
 class Predict_Net:
 
@@ -30,9 +25,6 @@ class Predict_Net:
 
 		self.load_net()
 		self.prediction_process()
-		#self.publish_label(label)
-
-		return label
 
 
 	def load_net(self):
@@ -53,7 +45,7 @@ class Predict_Net:
 		random.shuffle(paths_to_image)
 
 		# choose only 30 images
-		paths_to_image = paths_to_image[1]
+		paths_to_image = paths_to_image[:31]
 
 		# loop over the image paths
 		for (i, path_to_image) in enumerate(paths_to_image):
@@ -81,28 +73,3 @@ class Predict_Net:
 			p = os.path.sep.join([self.args["predictions"], "{}.png".format(i)])
 
 			cv2.imwrite(p, image)
-
-			return label
-
-'''
-	def publish_label(self, label):
-
-		pub = rospy.Publisher('ros_label', String, queue_size=10)
-		rospy.init_node("ros_label", anonymous=True)
-		rate = rospy.Rate(1)
-
-		while not rospy.is_shutdown():
-
-			pub.publish(label)
-			rospy.loginfo("Please turn %s", label)
-			rate.sleep()
-
-
-
-if __name__ == "__main__":
-    try:
-        self.main_predict_net()
-    except rospy.ROSInterruptException:
-        pass
-
-'''

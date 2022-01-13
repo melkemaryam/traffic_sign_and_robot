@@ -1,32 +1,29 @@
+#!/usr/bin/env python3
 import rospy
 from std_msgs.msg import Float64
 from time import sleep
 
-def publisher():
-        pub = rospy.Publisher('ros_data', Float64, queue_size=10)
-        rospy.init_node("ros_data", anonymous = True)
+from ./code/predict import Predict_Net
+
+def publish_label(self, label):
+
+        lab = Predict_Net()
+        label = lab.main_predict_net()
+
+        pub = rospy.Publisher('ros_label', String, queue_size=10)
+        rospy.init_node("ros_label", anonymous=True)
         rate = rospy.Rate(1)
 
-        value = 0
-
-        ledList = [0.0,3.0,5.0,6.0,2.0,10.0]
         while not rospy.is_shutdown():
 
-            for i in range(0, len(ledList)-1):
-                value = ledList[i]
-
-                pub.publish(value)                                                                 
-                                
-                rospy.loginfo("The Value =%s",value)
-
-                rate.sleep()
-
-
+            pub.publish(label)
+            rospy.loginfo("Please turn %s", label)
+            rate.sleep()
 
 
 
 if __name__ == "__main__":
     try:
-        main()
+        self.publish_label()
     except rospy.ROSInterruptException:
         pass
