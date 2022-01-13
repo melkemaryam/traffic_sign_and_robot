@@ -3,15 +3,15 @@
 # python main.py --model ../output/neural_net.model --dataset ../gtsrb --images ../gtsrb/Test --predictions ../predictions --plot ../output/plot.png
 
 
-from arguments import Args
+#from arguments import Args
 from train import Train_Net
 from predict import Predict_Net
 
 if __name__ == '__main__':
 	try:
 		
-		a = Args()
-		a.parse_arguments()
+		#a = Args()
+		#a.parse_arguments()
 
 		# create objects of training and predicting classes
 		tr = Train_Net()

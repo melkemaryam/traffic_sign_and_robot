@@ -5,7 +5,7 @@ matplotlib.use("Agg")
 
 # import packages
 import argparse
-from arguments import Args
+#from arguments import Args
 from datetime import datetime
 import numpy as np
 from neural_net import Neural_Net
@@ -30,8 +30,8 @@ class Train_Net:
 	
 	def main_train_net(self):
 
-		arg = Args()
-		self.args = arg.parse_arguments()
+		#arg = Args()
+		#self.args = arg.parse_arguments()
 
 		self.net = Neural_Net()
 
@@ -108,13 +108,13 @@ class Train_Net:
 	def prepare_data(self):
 
 		# derive the path to the training and testing CSV files
-		path_to_train = os.path.sep.join([self.args["dataset"], "Train.csv"])
-		path_to_test = os.path.sep.join([self.args["dataset"], "Test.csv"])
+		path_to_train = os.path.sep.join(["../gtsrb_rl", "Train.csv"])
+		path_to_test = os.path.sep.join(["../gtsrb_rl","Test.csv"])
 
 		# load the training and testing data
 		print("[INFO] loading training and testing data...")
-		(self.train_X, self.train_Y) = self.load_images(self.args["dataset"], path_to_train)
-		(self.test_X, self.test_Y) = self.load_images(self.args["dataset"], path_to_test)
+		(self.train_X, self.train_Y) = self.load_images("../gtsrb_rl", path_to_train)
+		(self.test_X, self.test_Y) = self.load_images("../gtsrb_rl", path_to_test)
 
 		# scale data to the range of [0, 1]
 		self.train_X = self.train_X.astype("float32") / 255.0
@@ -219,8 +219,8 @@ class Train_Net:
 	def save_data(self, train):
 		
 		# save the network to disk
-		print("[INFO] serializing network to '{}'...".format(self.args["model"]))
-		self.model.save(self.args["model"])
+		print("[INFO] serializing network to '{}'...".format("../output/neural_net.model"))
+		self.model.save("../output/neural_net.model")
 
 		# plot the training loss and accuracy
 		num = np.arange(0, self.epochs_run)
@@ -238,4 +238,4 @@ class Train_Net:
 		plt.xlabel("Epoch #")
 		plt.ylabel("Loss/Accuracy")
 		plt.legend(loc="lower left")
-		plt.savefig(self.args["plot"])
+		plt.savefig("../output/plot.png")
