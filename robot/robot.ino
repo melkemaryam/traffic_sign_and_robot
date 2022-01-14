@@ -22,6 +22,7 @@
 
 #include <ros.h>
 #include <std_msgs/String.h>
+#include <std_msgs/Float64.h>
 
 #include <SPI.h>
 #include <Wire.h>
@@ -63,12 +64,13 @@ String currentDirection = "forward";
 
 ros::NodeHandle  nh;
 String message;
+float x;
 
 // Declare a Subscribers object
 ros::Subscriber<std_msgs::String> sub("ros_label", &changeDirection);
 
 // Declare a Publisher object
-std_msgs::String reaction;
+std_msgs::Float64 reaction;
 ros::Publisher pub("arduino_reaction", &reaction);
 
 
@@ -109,7 +111,10 @@ void loop() {
   //change_direction();
   //moveForward();
 
-  return_reaction();
+  reaction.data = returnReaction(x);
+  pub.publish(&reaction);
+  nh.spinOnce();
+  delay(1000);
 
   readUSensor();
   delay(1000);
@@ -192,12 +197,13 @@ void setDisplay() {
   oled.setFont(System5x7);
 }
 
-void change_direction(const std_msgs::String& msg){
+void changeDirection(const std_msgs::String& msg){
 
   message = msg.data;
 
   if (message == "Turn right"){
 
+    x = 1.0;
     turnRight();
     delay(2000);
     moveForward();
@@ -205,6 +211,7 @@ void change_direction(const std_msgs::String& msg){
 
   if (message == "Turn left"){
 
+    x = 2.0;
     turnLeft();
     delay(2000);
     moveForward();
@@ -212,14 +219,10 @@ void change_direction(const std_msgs::String& msg){
 }
 
 
-void return_reaction(const std_msgs::String& msg){
+float returnReaction(float z){
 
-  reaction.data = msg.data;
+  z = x;
 
-  pub.publish(&reaction);
-
-  nh.spinOnce();
-
-  delay(10000);
+  return z;
 
 }
