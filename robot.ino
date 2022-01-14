@@ -65,7 +65,11 @@ ros::NodeHandle  nh;
 String message;
 
 // Declare a Subscribers object
-ros::Subscriber<std_msgs::String> sub("ros_label", &change_direction);
+ros::Subscriber<std_msgs::String> sub("ros_label", &changeDirection);
+
+// Declare a Publisher object
+std_msgs::String reaction;
+ros::Publisher pub("arduino_reaction", &reaction);
 
 
 
@@ -96,19 +100,25 @@ void setup() {
 
   nh.initNode();
   nh.subscribe(sub);
+  nh.advertise(pub);
 
 }
 
 void loop() {
 
-  change_direction();
-  moveForward();
+  //change_direction();
+  //moveForward();
+
+  return_reaction();
 
   readUSensor();
   delay(1000);
 
   setDisplay();
   oled.print("Going "); oled.println(currentDirection);// text to oled
+  oled.print("Obstacle in: "); oled.print(distance); oled.println("cm");
+
+
 }
 
 void readUSensor() {
@@ -190,11 +200,26 @@ void change_direction(const std_msgs::String& msg){
 
     turnRight();
     delay(2000);
+    moveForward();
   }
 
-  if (message == "Turn Left"){
+  if (message == "Turn left"){
 
     turnLeft();
     delay(2000);
+    moveForward();
   }
+}
+
+
+void return_reaction(){
+
+  reaction.data = message;
+
+  pub.publish(&reaction);
+
+  nh.spinOnce();
+
+  delay(1000)
+
 }
