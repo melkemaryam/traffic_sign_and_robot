@@ -212,14 +212,14 @@ void change_direction(const std_msgs::String& msg){
 }
 
 
-void return_reaction(){
+void return_reaction(const std_msgs::String& msg){
 
-  reaction.data = message;
+  reaction.data = msg.data;
 
   pub.publish(&reaction);
 
   nh.spinOnce();
 
-  delay(10000)
+  delay(10000);
 
 }
