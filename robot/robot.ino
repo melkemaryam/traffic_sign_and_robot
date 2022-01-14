@@ -66,7 +66,29 @@ ros::NodeHandle  nh;
 String message;
 float x;
 
-// Declare a Subscribers object
+void changeDirection(const std_msgs::String& msg){
+
+  message = msg.data;
+
+  if (message == "Turn right"){
+
+    x = 1.0;
+    turnRight();
+    delay(2000);
+    moveForward();
+  }
+
+  if (message == "Turn left"){
+
+    x = 2.0;
+    turnLeft();
+    delay(2000);
+    moveForward();
+  }
+}
+
+
+// Declare a Subscriber object
 ros::Subscriber<std_msgs::String> sub("ros_label", &changeDirection);
 
 // Declare a Publisher object
@@ -195,27 +217,6 @@ void setDisplay() {
   oled.clear(); // clear display
 
   oled.setFont(System5x7);
-}
-
-void changeDirection(const std_msgs::String& msg){
-
-  message = msg.data;
-
-  if (message == "Turn right"){
-
-    x = 1.0;
-    turnRight();
-    delay(2000);
-    moveForward();
-  }
-
-  if (message == "Turn left"){
-
-    x = 2.0;
-    turnLeft();
-    delay(2000);
-    moveForward();
-  }
 }
 
 

@@ -87,7 +87,7 @@ class Predict_Net:
 
 			cv2.imwrite(p, image)
 
-			print(self.label)
+			#print(self.label)
 			return self.label
 
 '''
