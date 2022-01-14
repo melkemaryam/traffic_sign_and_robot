@@ -220,6 +220,6 @@ void return_reaction(){
 
   nh.spinOnce();
 
-  delay(1000)
+  delay(2000)
 
 }
