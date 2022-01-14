@@ -17,7 +17,7 @@ def publish_label():
         while not rospy.is_shutdown():
 
             label = lab.main_predict_net()
-            time.sleep(10)
+            sleep(10)
             pub.publish(label)
             rospy.loginfo("Please %s", label)
             rate.sleep()
