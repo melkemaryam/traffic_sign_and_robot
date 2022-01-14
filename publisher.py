@@ -8,7 +8,7 @@ from code.predict import Predict_Net
 def publish_label():
 
         lab = Predict_Net()
-        label = lab.main_predict_net()
+        #label = lab.main_predict_net()
 
         pub = rospy.Publisher('ros_label', String, queue_size=10)
         rospy.init_node("ros_label", anonymous=True)
