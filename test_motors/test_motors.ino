@@ -92,6 +92,11 @@ void setup() {
 void loop() {
 
   moveForward();
+  delay(2000);
+  turnLeft();
+  delay(2000);
+  turnRight();
+  delay(2000);
 
   readUSensor();
   delay(1000);
@@ -131,7 +136,12 @@ void moveForward() {
   digitalWrite (leftMotor1, leftSpeed);
   digitalWrite(leftMotor2, LOW);
 
+  digitalWrite(ledLeft, HIGH);
+  digitalWrite(ledRight, HIGH);
   Serial.print("Direction = Straight Forward \n");
+  delay(1000);
+  digitalWrite(ledLeft, LOW);
+  digitalWrite(ledRight, LOW);
 }
 
 //function for turning left
@@ -141,8 +151,11 @@ void turnLeft() {
   digitalWrite (leftMotor1, LOW);
   digitalWrite(leftMotor2, LOW);
   
+  digitalWrite(ledLeft, HIGH);
   Serial.print("Direction = Left \n");
   currentDirection = "left";
+  delay(1000);
+  digitalWrite(ledLeft, LOW);
 }
 
 //function for turning right
@@ -152,8 +165,11 @@ void turnRight() {
   digitalWrite (leftMotor1, leftSpeed);
   digitalWrite(leftMotor2, LOW);
 
+  digitalWrite(ledRight, HIGH);
   Serial.print("Direction = Right \n");
   currentDirection = "right";
+  delay(1000);
+  digitalWrite(ledRight, LOW);
 }
 
 //function for stopping

@@ -90,8 +90,8 @@ void changeDirection(const std_msgs::String& msg){
 ros::Subscriber<std_msgs::String> sub("ros_label", &changeDirection);
 
 // Declare a Publisher object
-// std_msgs::Float64 reaction;
-// ros::Publisher pub("arduino_reaction", &reaction);
+std_msgs::Float64 reaction;
+ros::Publisher pub("arduino_reaction", &reaction);
 
 
 
@@ -122,7 +122,7 @@ void setup() {
 
   nh.initNode();
   nh.subscribe(sub);
-  // nh.advertise(pub);
+  nh.advertise(pub);
 
 }
 
@@ -131,10 +131,10 @@ void loop() {
   //changeDirection(const std_msgs::String& msg);
   moveForward();
 
-  // reaction.data = returnReaction(x);
-  // pub.publish(&reaction);
-  // nh.spinOnce();
-  // delay(1000);
+  reaction.data = returnReaction(x);
+  pub.publish(&reaction);
+  nh.spinOnce();
+  delay(1000);
 
   readUSensor();
   delay(1000);
@@ -173,6 +173,7 @@ void moveForward() {
   digitalWrite(rightMotor2, LOW);
   digitalWrite(leftMotor1, leftSpeed);
   digitalWrite(leftMotor2, LOW);
+  
   digitalWrite(ledLeft, HIGH);
   digitalWrite(ledRight, HIGH);
   Serial.print("Direction = Straight Forward \n");
@@ -228,10 +229,10 @@ void setDisplay() {
 }
 
 
-//float returnReaction(float z){
+float returnReaction(float z){
 
-//  z = x;
+  z = x;
 
-//  return z;
+  return z;
 
-// }
+}
