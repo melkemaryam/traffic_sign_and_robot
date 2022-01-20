@@ -75,7 +75,6 @@ void changeDirection(const std_msgs::String& msg){
     x = 1.0;
     turnRight();
     delay(2000);
-    moveForward();
   }
 
   if (message == "Turn left"){
@@ -83,7 +82,6 @@ void changeDirection(const std_msgs::String& msg){
     x = 2.0;
     turnLeft();
     delay(2000);
-    moveForward();
   }
 }
 
@@ -92,15 +90,15 @@ void changeDirection(const std_msgs::String& msg){
 ros::Subscriber<std_msgs::String> sub("ros_label", &changeDirection);
 
 // Declare a Publisher object
-std_msgs::Float64 reaction;
-ros::Publisher pub("arduino_reaction", &reaction);
+// std_msgs::Float64 reaction;
+// ros::Publisher pub("arduino_reaction", &reaction);
 
 
 
 void setup() {
   // put your setup code here, to run once:
 
-  Serial.begin (9600);
+  Serial.begin(9600);
 
   Wire.begin();
   Wire.setClock(400000L);
@@ -124,7 +122,7 @@ void setup() {
 
   nh.initNode();
   nh.subscribe(sub);
-  nh.advertise(pub);
+  // nh.advertise(pub);
 
 }
 
@@ -133,10 +131,10 @@ void loop() {
   //changeDirection(const std_msgs::String& msg);
   moveForward();
 
-  reaction.data = returnReaction(x);
-  pub.publish(&reaction);
-  nh.spinOnce();
-  delay(1000);
+  // reaction.data = returnReaction(x);
+  // pub.publish(&reaction);
+  // nh.spinOnce();
+  // delay(1000);
 
   readUSensor();
   delay(1000);
@@ -230,10 +228,10 @@ void setDisplay() {
 }
 
 
-float returnReaction(float z){
+//float returnReaction(float z){
 
-  z = x;
+//  z = x;
 
-  return z;
+//  return z;
 
-}
+// }
