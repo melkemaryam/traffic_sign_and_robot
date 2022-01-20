@@ -20,8 +20,7 @@
 //A5: OLED
 //===============================================================
 
-#include <ros.h>
-#include <std_msgs/String.h>
+#include <ros.h> // include ros libraries
 #include <std_msgs/Int16.h>
 
 #include <SPI.h>
@@ -57,39 +56,43 @@ const int leftMotor2 = 9;
 const int ledRight = A3;
 const int ledLeft = A2;
 
+//initialise speed, so not too fast
 int leftSpeed = 30;
 int rightSpeed = 30;
 
+//initialise directions
 String currentDirection = "forward";
 
+//create ros node
 ros::NodeHandle  nh;
-String message;
-float x;
+int x;
 
-void changeDirection(const std_msgs::String& msg){
+// callback function for recieving the label
+void changeDirection(std_msgs::Int16& msg){
 
-  message = msg.data;
+  //get label from publisher
+  x = msg.data;
 
-  if (message == "Turn right"){
+  if (x == 1){
 
-    x = 1;
+    //if receiving 1, turn right
     turnRight();
     delay(1000);
-    moveForward();
+    stopDriving();
   }
 
-  if (message == "Turn left"){
+  if (x == 2){
 
-    x = 2;
+    //if receiving 2, turn left
     turnLeft();
     delay(1000);
-    moveForward();
+    stopDriving();
   }
 }
 
 
 // Declare a Subscriber object
-ros::Subscriber<std_msgs::String> sub("ros_label", &changeDirection);
+ros::Subscriber<std_msgs::Int16> sub("ros_label", &changeDirection);
 
 // Declare a Publisher object
 std_msgs::Int16 reaction;
@@ -98,14 +101,15 @@ ros::Publisher pub("arduino_reaction", &reaction);
 
 
 void setup() {
-  // put your setup code here, to run once:
+  // set up robot to run code once:
 
+  // set up serial port
   Serial.begin(9600);
 
+  // set up OLED
   Wire.begin();
   Wire.setClock(400000L);
   oled.begin(&Adafruit128x64, I2C_ADDRESS, RST_PIN); // start OLED
-
   setDisplay();
   oled.println("Hello!"); // text to display
   oled.println("The programme");
@@ -122,6 +126,7 @@ void setup() {
   pinMode(ledRight, OUTPUT);
   pinMode(ledLeft, OUTPUT);
 
+  // set up ros
   nh.initNode();
   nh.subscribe(sub);
   nh.advertise(pub);
@@ -130,24 +135,24 @@ void setup() {
 
 void loop() {
 
-  //changeDirection(const std_msgs::String& msg);
-  //moveForward();
-
+  // publish changes to subscriber
   reaction.data = x;
   pub.publish(&reaction);
   nh.spinOnce();
-  delay(1000);
+  delay(1);
 
+  // read ultrasonic sensor
   readUSensor();
   delay(1000);
 
+  // update OLED
   setDisplay();
   oled.print("Going "); oled.println(currentDirection);// text to oled
   oled.print("Obstacle in: "); oled.print(distance); oled.println("cm");
 
-
 }
 
+// function to read the ultrasonic sensor
 void readUSensor() {
 
   //apply pulse to the trigger
@@ -164,6 +169,7 @@ void readUSensor() {
   //formula according to sellers: uS/58 = centimeters
   distance = 0.017 * duration;
 
+  // show data on OLED
   Serial.print("Distance to object = ");
   Serial.print(distance);
   Serial.print("cm \n");
@@ -176,10 +182,11 @@ void moveForward() {
   digitalWrite(leftMotor1, leftSpeed);
   digitalWrite(leftMotor2, LOW);
   
+  // signalise on OLED and LEDs
   digitalWrite(ledLeft, HIGH);
   digitalWrite(ledRight, HIGH);
   Serial.print("Direction = Straight Forward \n");
-  delay(1000);
+  delay(500);
   digitalWrite(ledLeft, LOW);
   digitalWrite(ledRight, LOW);
 }
@@ -191,10 +198,11 @@ void turnLeft() {
   digitalWrite(leftMotor1, LOW);
   digitalWrite(leftMotor2, LOW);
 
+  // signalise on OLED and LEDs
   digitalWrite(ledLeft, HIGH);
   Serial.print("Direction = Left \n");
   currentDirection = "left";
-  delay(1000);
+  delay(500);
   digitalWrite(ledLeft, LOW);
 }
 
@@ -205,10 +213,11 @@ void turnRight() {
   digitalWrite(leftMotor1, leftSpeed);
   digitalWrite(leftMotor2, LOW);
 
+  // signalise on OLED and LEDs
   digitalWrite(ledRight, HIGH);
   Serial.print("Direction = Right \n");
   currentDirection = "right";
-  delay(1000);
+  delay(500);
   digitalWrite(ledRight, LOW);
 }
 
@@ -219,22 +228,15 @@ void stopDriving() {
   digitalWrite(leftMotor1, LOW);
   digitalWrite(leftMotor2, LOW);
 
+  // signalise on OLED
   Serial.print("Direction = Stopping \n");
   currentDirection = "stopping";
 }
 
+//function to reset display
 void setDisplay() {
   delay(100);         // wait for initializing
   oled.clear(); // clear display
 
   oled.setFont(System5x7);
 }
-
-
-//float returnReaction(float z){
-
- // z = x;
-
- // return z;
-
-//}
