@@ -12,7 +12,7 @@ def publish_label():
 
         rospy.init_node("ros_label", anonymous=True)
         pub = rospy.Publisher('ros_label', Int16, queue_size=1)
-        rate = rospy.Rate(1)
+        rate = rospy.Rate(5)
 
         label = Int16()
 

@@ -63,7 +63,6 @@ int rightSpeed = 30;
 String currentDirection = "forward";
 
 ros::NodeHandle  nh;
-// String message;
 int x;
 
 void changeDirection(std_msgs::Int16& msg){
@@ -74,26 +73,24 @@ void changeDirection(std_msgs::Int16& msg){
 
     turnRight();
     delay(1000);
-    moveForward();
+    stopDriving();
   }
 
   if (x == 2){
 
     turnLeft();
     delay(1000);
-    moveForward();
+    stopDriving();
   }
 }
 
 
 // Declare a Subscriber object
-//ros::Subscriber<std_msgs::String> sub("ros_label", &changeDirection);
-
 ros::Subscriber<std_msgs::Int16> sub("ros_label", &changeDirection);
 
 // Declare a Publisher object
-//std_msgs::Int16 reaction;
-//ros::Publisher pub("arduino_reaction", &reaction);
+std_msgs::Int16 reaction;
+ros::Publisher pub("arduino_reaction", &reaction);
 
 
 
@@ -124,17 +121,14 @@ void setup() {
 
   nh.initNode();
   nh.subscribe(sub);
-  //nh.advertise(pub);
+  nh.advertise(pub);
 
 }
 
 void loop() {
 
-  //changeDirection(const std_msgs::String& msg);
-  //moveForward();
-
-  //reaction.data = x;
-  //pub.publish(&reaction);
+  reaction.data = x;
+  pub.publish(&reaction);
   nh.spinOnce();
   delay(1);
 
@@ -179,7 +173,7 @@ void moveForward() {
   digitalWrite(ledLeft, HIGH);
   digitalWrite(ledRight, HIGH);
   Serial.print("Direction = Straight Forward \n");
-  delay(1000);
+  delay(500);
   digitalWrite(ledLeft, LOW);
   digitalWrite(ledRight, LOW);
 }
@@ -194,7 +188,7 @@ void turnLeft() {
   digitalWrite(ledLeft, HIGH);
   Serial.print("Direction = Left \n");
   currentDirection = "left";
-  delay(1000);
+  delay(500);
   digitalWrite(ledLeft, LOW);
 }
 
@@ -208,7 +202,7 @@ void turnRight() {
   digitalWrite(ledRight, HIGH);
   Serial.print("Direction = Right \n");
   currentDirection = "right";
-  delay(1000);
+  delay(500);
   digitalWrite(ledRight, LOW);
 }
 
@@ -229,12 +223,3 @@ void setDisplay() {
 
   oled.setFont(System5x7);
 }
-
-
-//float returnReaction(float z){
-
- // z = x;
-
- // return z;
-
-//}
