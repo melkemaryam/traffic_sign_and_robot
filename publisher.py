@@ -10,14 +10,15 @@ def publish_label():
         lab = Predict_Net()
         #label = lab.main_predict_net()
 
-        pub = rospy.Publisher('ros_label', String, queue_size=10)
+        pub = rospy.Publisher('ros_label', String, queue_size=1)
         rospy.init_node("ros_label", anonymous=True)
         rate = rospy.Rate(1)
+
+        label = String()
 
         while not rospy.is_shutdown():
 
             label = lab.main_predict_net()
-            sleep(4)
             pub.publish(label)
             rospy.loginfo("Please %s", label)
             rate.sleep()

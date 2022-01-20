@@ -131,7 +131,14 @@ void setup() {
 void loop() {
 
   //changeDirection(const std_msgs::String& msg);
-  //moveForward();
+  moveForward();
+  delay(1000);
+  turnLeft();
+  delay(1000);
+  moveForward();
+  delay(1000);
+  turnRight();
+  delay(1000);
 
   reaction.data = x;
   pub.publish(&reaction);
