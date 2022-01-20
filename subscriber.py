@@ -9,6 +9,9 @@ result = Float64()
 float direction
 String current_direction
 
+direction = Float64()
+#current_direction
+
 # Function to do the calculations
 def callback(msg):
     
