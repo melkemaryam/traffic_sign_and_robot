@@ -58,7 +58,7 @@ source /home/hannah/catkin_ws/devel/setup.bash
 
 
 
-### Create Virtual Environment on Ubunto
+### Create Virtual Environment on Ubuntu
 
 * run `sudo pip3 install virtualenv`
 * create environment with `virtualenv <name> -p python3`

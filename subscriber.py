@@ -13,7 +13,7 @@ String current_direction
 def callback(msg):
     
     result.data = msg
-    direction = msg.data;
+    direction = msg.data
 
     if (direction == 1.0):
         current_direction = "right"

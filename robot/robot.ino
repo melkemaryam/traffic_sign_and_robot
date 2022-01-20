@@ -171,41 +171,51 @@ void readUSensor() {
 
 // function for driving straight
 void moveForward() {
-  digitalWrite (rightMotor1, rightSpeed);
+  digitalWrite(rightMotor1, rightSpeed);
   digitalWrite(rightMotor2, LOW);
-  digitalWrite (leftMotor1, leftSpeed);
+  digitalWrite(leftMotor1, leftSpeed);
   digitalWrite(leftMotor2, LOW);
-
+  digitalWrite(ledLeft, HIGH);
+  digitalWrite(ledRight, HIGH);
   Serial.print("Direction = Straight Forward \n");
+  delay(1000);
+  digitalWrite(ledLeft, LOW);
+  digitalWrite(ledRight, LOW);
 }
 
 //function for turning left
 void turnLeft() {
-  digitalWrite (rightMotor1, rightSpeed);
+  digitalWrite(rightMotor1, rightSpeed);
   digitalWrite(rightMotor2, LOW);
-  digitalWrite (leftMotor1, LOW);
+  digitalWrite(leftMotor1, LOW);
   digitalWrite(leftMotor2, LOW);
-  
+
+  digitalWrite(ledLeft, HIGH);
   Serial.print("Direction = Left \n");
   currentDirection = "left";
+  delay(1000);
+  digitalWrite(ledLeft, LOW);
 }
 
 //function for turning right
 void turnRight() {
-  digitalWrite (rightMotor1, LOW);
+  digitalWrite(rightMotor1, LOW);
   digitalWrite(rightMotor2, LOW);
-  digitalWrite (leftMotor1, leftSpeed);
+  digitalWrite(leftMotor1, leftSpeed);
   digitalWrite(leftMotor2, LOW);
 
+  digitalWrite(ledRight, HIGH);
   Serial.print("Direction = Right \n");
   currentDirection = "right";
+  delay(1000);
+  digitalWrite(ledRight, LOW);
 }
 
 //function for stopping
 void stopDriving() {
-  digitalWrite (rightMotor1, LOW);
+  digitalWrite(rightMotor1, LOW);
   digitalWrite(rightMotor2, LOW);
-  digitalWrite (leftMotor1, LOW);
+  digitalWrite(leftMotor1, LOW);
   digitalWrite(leftMotor2, LOW);
 
   Serial.print("Direction = Stopping \n");
