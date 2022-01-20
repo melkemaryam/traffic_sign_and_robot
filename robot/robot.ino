@@ -74,14 +74,16 @@ void changeDirection(const std_msgs::String& msg){
 
     x = 1.0;
     turnRight();
-    delay(2000);
+    delay(1000);
+    moveForward();
   }
 
   if (message == "Turn left"){
 
     x = 2.0;
     turnLeft();
-    delay(2000);
+    delay(1000);
+    moveForward();
   }
 }
 
@@ -129,9 +131,9 @@ void setup() {
 void loop() {
 
   //changeDirection(const std_msgs::String& msg);
-  moveForward();
+  //moveForward();
 
-  reaction.data = returnReaction(x);
+  reaction.data = x;
   pub.publish(&reaction);
   nh.spinOnce();
   delay(1000);
@@ -229,10 +231,10 @@ void setDisplay() {
 }
 
 
-float returnReaction(float z){
+//float returnReaction(float z){
 
-  z = x;
+ // z = x;
 
-  return z;
+ // return z;
 
-}
+//}
